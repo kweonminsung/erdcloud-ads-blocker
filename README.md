@@ -2,6 +2,8 @@
 
 A Chrome extension that removes on ERDCloud.
 
+<img src="./public/example.png" alt="Example Screenshot" width="400"/>
+
 ## Installation
 
 ### Method 1: Chrome Extension
