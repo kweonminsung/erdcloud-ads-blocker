@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "ERDCloud Ads Blocker",
+    "version": "0.1.0",
+    "description": "Removes ads on ERDCloud",
+    "permissions": [],
+    "host_permissions": [
+        "https://www.erdcloud.com/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://www.erdcloud.com/*"
+            ],
+            "js": [
+                "script.js"
+            ],
+            "run_at": "document_end"
+        }
+    ]
+}
