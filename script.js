@@ -89,21 +89,40 @@
     "resize",
     debounce(() => {
       resizeAllCanvases();
-    }, 100),
+    }, 200),
     { passive: true }
   );
 
-  // Observe DOM changes to handle SPA/navigation or dynamic layout updates
-  const debouncedApply = debounce(applyFix, 150);
+  // Only watch for ad-related elements being added, not all DOM changes
+  // This prevents interfering with canvas rendering
+  const observer = new MutationObserver((mutations) => {
+    let shouldReapply = false;
 
-  const observer = new MutationObserver(() => {
-    // If the app re-renders or replaces root nodes, ensure CSS and canvas sizing remain correct
-    debouncedApply();
+    for (const mutation of mutations) {
+      if (mutation.type === "childList") {
+        mutation.addedNodes.forEach((node) => {
+          if (node.nodeType === 1) {
+            const el = node;
+            // Only react if ad-related elements are added
+            if (
+              el.classList?.contains("erd-ads-area") ||
+              el.classList?.contains("ads-block-warning-overlay") ||
+              el.querySelector?.(".erd-ads-area, .ads-block-warning-overlay")
+            ) {
+              shouldReapply = true;
+            }
+          }
+        });
+      }
+    }
+
+    if (shouldReapply) {
+      injectCSSOnce();
+    }
   });
 
-  observer.observe(document.documentElement, {
+  observer.observe(document.body, {
     childList: true,
     subtree: true,
-    attributes: true,
   });
 })();
