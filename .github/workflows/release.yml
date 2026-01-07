@@ -23,7 +23,7 @@ jobs:
 
       - name: Create extension package
         run: |
-          zip -r erdcloud-ads-blocker.zip manifest.json content.js README.md
+          zip -r erdcloud-ads-blocker.zip manifest.json script.js
 
       - name: Create Release
         uses: softprops/action-gh-release@v1
